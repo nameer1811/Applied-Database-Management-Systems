@@ -1,0 +1,24 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createSalesRepList`(IN country VARCHAR(50), INOUT emails VARCHAR(1000), INOUT fullNames VARCHAR(1000))
+BEGIN
+	DECLARE num INTEGER DEFAULT 0;
+    DECLARE fullName VARCHAR(100) DEFAULT "";
+	DECLARE email VARCHAR(100) DEFAULT "";
+
+	DECLARE myCursor CURSOR FOR SELECT E.email, CONCAT(E.lastName, ",", E.firstName) FROM classicmodels.employees AS E
+		INNER JOIN classicmodels.offices AS O ON O.officeCode = E.officeCode AND O.country LIKE country WHERE E.jobTitle = "Sales Rep";
+	
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET num = 1;
+    OPEN myCursor;
+    
+    namesNEmail: LOOP
+        FETCH myCursor INTO email, fullName;
+		IF num = 1 THEN
+			LEAVE namesNEmail;
+        END IF;
+		
+        SET emails = CONCAT(emails, email, ";");
+        SET fullNames = CONCAT(fullNames, fullName, ";");
+    END LOOP namesNEmail;
+    
+    CLOSE myCursor;
+END

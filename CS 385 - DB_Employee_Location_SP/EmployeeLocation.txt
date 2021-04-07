@@ -1,0 +1,7 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EmployeeLocation`(IN eID INT)
+BEGIN
+	SELECT employeeNumber AS ID, CONCAT(E.firstName," ", E.lastName) AS Name, CONCAT(O.City, IF (O.state IS NULL, ", ", CONCAT(", ", O.state,", ")), O.Country) AS Location
+	FROM classicmodels.employees AS E
+	JOIN classicmodels.offices AS O ON E.officeCode = O.officeCode
+    WHERE E.employeeNumber = eID;
+END

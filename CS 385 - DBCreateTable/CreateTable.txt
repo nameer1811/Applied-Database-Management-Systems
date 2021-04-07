@@ -1,0 +1,58 @@
+<Author>Isaac Asimov
+<Title>Foundation</Title>
+<Title>Second Foundation</Title>
+<Title>Foundation And Empire</Title>
+<Title>I, Robot</Title>
+</Author>
+<Author>Ray Bradbury
+<Title>Fahrenheit 451</Title>
+<Title>The Martian Chronicles</Title>
+</Author>
+<Author>Arthur C. Clarke
+<Title>Rendezvous With Rama</Title>
+<Title>2001 Space Odyssey</Title>
+</Author>
+<Author>Stephen W. Hawking
+<Title>A Brief History Of Time</Title>
+</Author>
+<Author>Douglas Adams
+<Title>Hitchhikers Guide To The Galaxy</Title>
+<Title>Thanks For All The Fish</Title>
+<Title>Mostly Harmless</Title>
+</Author>
+<Author>J.R.R. Tolkien
+<Title>The Hobbit</Title>
+<Title>The Lord Of The Rings</Title>
+</Author>
+<Author>Robert T. Bakker
+<Title>The Dinosaur Heresies</Title>
+</Author>
+<Author>Dave Barry
+<Title>Guide To Guys</Title>
+<Title>Does Japan</Title>
+<Title>History Of The Millennium, So Far</Title>
+</Author>
+<Author>Scott Adams
+<Title>The Joy Of Work</Title>
+</Author>
+<Author>Tom Clancey
+<Title>Executive Orders</Title>
+<Title>Debt Of Honor</Title>
+<Title>Hunt For Red October</Title>
+<Title>The Cardinal Of The Kremlin</Title>
+</Author>
+<Author>Doris Kearns Woodwin
+<Title>Team Of Rivals</Title>
+</Author>
+<Author>Kurt Vonnegut
+<Title>Payer Piano</Title>
+<Title>Slaughter House Five</Title>
+<Title>Breakfast Of Champions</Title>
+</Author>
+<Author>George Orwell
+<Title>1984</Title>
+<Title>Animal Farm</Title>
+</Author>
+<Author>Lawrence J Peter
+<Title>Peter Principle</Title>
+</Author>

@@ -1,0 +1,47 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddOrder`(IN orderTime TIMESTAMP, 
+	IN requiredTime TIMESTAMP, IN customerNumber INT, 
+	IN orderDetails VARCHAR(1024), IN commitRollback VARCHAR(8), 
+    INOUT maxOrderNumber INT)
+BEGIN
+	DECLARE finalProduct INT DEFAULT 0;
+	DECLARE currentItem INT DEFAULT 0;
+    DECLARE currentCode VARCHAR(15);
+	DECLARE cursorProduct CURSOR FOR SELECT P.productCode FROM classicmodels.products AS P 
+    WHERE orderDetails LIKE CONCAT("%",P.productCode,"%");
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET finalProduct = 1;
+    	
+
+	SELECT 
+    @orderNumber:=MAX(orderNumber) + 1
+FROM
+    classicmodels.orders INTO maxOrderNumber;
+        
+    INSERT INTO classicmodels.orders (orderNumber, orderDate, requiredDate, shippedDate, 
+		status, comments, customerNumber) 
+		VALUES (maxOrderNumber, orderTime, requiredTime, NULL, 'In Process', NULL, 
+        customerNumber);
+    
+    OPEN cursorProduct;
+    
+    productAdding : LOOP
+		FETCH cursorProduct INTO currentCode;
+        
+		IF finalProduct = 1 THEN
+			LEAVE productAdding;
+        END IF;
+        
+        SET currentItem = currentItem + 1;
+        
+        INSERT INTO classicmodels.orderdetails (orderNumber, productCode, quantityOrdered, 
+					priceEach, orderLineNumber) 
+			VALUES (maxOrderNumber, currentCode, currentItem, currentItem, currentItem);
+    END LOOP productAdding;
+    
+    CLOSE cursorProduct;
+    
+    IF commitRollback = 'rollback' THEN
+		ROLLBACK;
+	ELSE
+		COMMIT;
+    END IF;
+END

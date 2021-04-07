@@ -1,0 +1,34 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getProductsPerCode`(IN productCodes VARCHAR(128))
+BEGIN
+DROP TEMPORARY TABLE IF EXISTS productCodesRS;
+	CREATE TEMPORARY TABLE productCodesRS (
+		productCode VARCHAR(15), 
+		productName VARCHAR(70), 
+        productLine VARCHAR(50), 
+        productVendor VARCHAR(50), 
+        quantityInStock SMALLINT
+	);
+    
+	SET @pCodesIn = productCodes; #setting product codes to a variable to take in next
+    SET @pCodeNow = SUBSTRING_INDEX(productCodes, ',', 1); #currently executing product code, delimited by comma
+    SET @numberDone = 0; #variable to check if we are done
+    SET @totalPCodes = CHAR_LENGTH(productCodes) - CHAR_LENGTH(REPLACE(productCodes, ",", "")); #counting the total product codes in the string with the use of commas
+    
+    #starting loop
+	loopPCodes:LOOP 
+		#check if current is greater than total then leave loop
+		IF (@numberDone > @totalPCodes) THEN
+			LEAVE loopPCodes;
+		ELSE
+			INSERT INTO productCodesRS(productCode, productName, productLine, productVendor, quantityInStock)
+				SELECT P.productCode, P.productName, P.productLine, P.productVendor, P.quantityInStock FROM classicmodels.products AS P 
+                WHERE P.productCode LIKE @pCodeNow;
+        END IF;
+
+        SET @pCodesIn = SUBSTRING(@pCodesIn, CHAR_LENGTH(@pCodeNow)+2, CHAR_LENGTH(@pCodesIn));
+        SET @pCodeNow = SUBSTRING_INDEX(@pCodesIn, ",", 1);
+        SET @numberDone = @numberDone + 1;
+    END LOOP loopPCodes;
+
+    SELECT * FROM productCodesRS;
+END
